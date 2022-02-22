@@ -1,4 +1,4 @@
-# Random Game Selector for GOG Galaxy 2.0
+# Random Game Picker for GOG Galaxy 2.0
 
 ## Description:
 Tested in Python 3.10.2
