@@ -1,10 +1,12 @@
-# Random Game Selector for GOG Galaxy 2.0
+# Random Game Picker for GOG Galaxy 2.0
 
 ## Description:
 Tested in Python 3.10.2
 
 Uses internal python libraries so you don't need anything else!
-All random selection done on the pure query, you can also filter by tag or to not include game pass games if you want
-(for example you have a backlog selected and want a random game to play from it)
+
+-- All random selection done by querying the database file
+-- You can filter by tag or to not include game pass (subscription) games if you want
+(for example you have a list of games tagged as 'backlog' and want a random game to play from it, or your gamepass expired but the games still show up on the library)
 
 Have Fun!

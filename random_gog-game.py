@@ -1,5 +1,5 @@
 '''
-Title: Random Game Selector for GOG Galaxy 2.0
+Title: Random Game Picker for GOG Galaxy 2.0
 Author: Guillermo Ochoa
 
 Description:
@@ -15,15 +15,25 @@ import sqlite3
 
 if __name__ == "__main__":
     conn = sqlite3.connect("C:\\ProgramData\\GOG.com\\Galaxy\\storage\\galaxy-2.0.db")
+    tag = ''
+    sub = ''
     if (input("Do you want to filter out game pass games? y/n: ") == 'y'):
-        sub = 'and URT.releaseKey not like \'xbox%\''
-    else:
-        sub = ''
+        sub = 'and SR.subscriptionId is NULL'
     if (input("Do you want to filter by tag? y/n: ") == 'y'):
         tag = 'and URT.tag = \'' + input('Choose your tag to filter: ') + '\''
-    else:
-        tag = ''
-    query = 'select distinct GP.value from GamePieces GP inner join UserReleaseTags URT on URT.releaseKey = GP.releaseKey where 1=1 '+ tag +' and GP.value like \'{"title%\' ' + sub + ' order by random() limit 1'
+
+    query = 'select distinct GP.value \
+        from GamePieces GP \
+        inner join UserReleaseTags URT on URT.releaseKey = GP.releaseKey \
+        inner join LibraryReleases LR on LR.releaseKey = GP.releaseKey \
+        left join SubscriptionReleases SR on SR.LicenseId = LR.Id \
+        where 1=1  \
+        '+ tag +' \
+        and GP.value like \'{"title%\' \
+        '+ sub +' \
+        group by URT.releaseKey \
+        order by random() \
+        limit 1'
     
     while(1):
         cursor = conn.execute(query)
@@ -31,5 +41,5 @@ if __name__ == "__main__":
         print('\n'+title+'\n')
         another = input("Chooser another game? y/n: ")
         if (another != 'y'):
-            print("Exiting!")
+            print("Have Fun!")
             break
